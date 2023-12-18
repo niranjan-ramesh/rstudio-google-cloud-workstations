@@ -12,5 +12,6 @@ As per the comments in the `rocker/rstudio` [`init_userconf.sh`](https://github.
 | `PASSWORD` | Whatever password you want to use to sign into the RStudio instance |
 | `USERID` | `0` |
 | `GROUPID` | `0` |
+| `EDITOR_FOCUS_DIR` | "/root" |
 
 Additionally, I set the **Run as user** field to `0` and **Working directory** to `/root`.
