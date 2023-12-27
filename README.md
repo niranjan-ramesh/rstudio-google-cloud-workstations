@@ -23,8 +23,10 @@ Additionally, I set the **Run as user** field to `0`.
 
 ![image](https://github.com/Collinbrown95/rstudio-google-cloud-workstations/assets/8021046/46badcfe-a505-4dfe-bd95-a358796bde35)
 
-
 3. Once the remote port has been changed as per Step 2, select "**OPEN IN NEW WINDOW**".
+4. In the bottom-right panel, select **More**, then **Go To Working Directory**. This is necessary because the `rocker/rstudio` image by default does not open in the `/home/` directory where a persistent volume is automatically mounted. I.e. in order to persist files across sessions, it's necessary to save files to the `/home/` directory.
+
+![image](https://github.com/Collinbrown95/rstudio-google-cloud-workstations/assets/8021046/10747ac5-ca00-49e3-9818-04080405331c)
 
 ## Reading Data from Google Cloud Storage
 
