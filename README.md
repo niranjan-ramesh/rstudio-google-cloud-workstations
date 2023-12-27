@@ -30,4 +30,40 @@ Additionally, I set the **Run as user** field to `0`.
 
 The [Apache Arrow R package](https://arrow.apache.org/docs/r/index.html) has native support for [GCS buckets](https://arrow.apache.org/docs/r/articles/fs.html).
 
-By default, the service account of the cloud workstation will be used to authenticate against the GGS storage bucket, so the storage account that the cloud workstation runs under requires the appropriate permissions on the GCS storage bucket.
+By default, the service account of the cloud workstation will be used to authenticate against the GGS storage bucket, so the service account that the cloud workstation runs under requires the appropriate permissions on the GCS storage bucket.
+
+In order to read directories containing many parquet files, an [Arrow Dataset](https://arrow.apache.org/docs/r/reference/Dataset.html) needs to be created over the GCS bucket prefix containing the parquet directory. Given an Arrow Dataset, an [Arrow Scanner](https://arrow.apache.org/docs/r/reference/Scanner.html) is used to iterate over the shards in the parquet directory based on row and column filtering conditions. Finally, the Scanner can be converted into an [Apache Arrow Table](https://arrow.apache.org/docs/cpp/tables.html), which can subsequently be converted to an R Data Frame. This [stackoverflow answer](https://stackoverflow.com/a/67287300) summarizes how these various components fit together.
+
+**Example**
+
+```r
+# Install and import arrow R package
+install.packages("arrow")
+
+library(arrow)
+
+# Name of gcs bucket to read from
+gcs_bucket <- "YOUR_BUCKET_NAME"
+
+# Connect to gcs bucket
+tb_bucket <- gs_bucket(gcs_bucket)
+
+# List all objects under a prefix
+tb_bucket$ls("cases", recursive = TRUE)
+
+# Load an entire parquet directory from a path
+
+# Create GCS filesystem using service account credentials from the VM
+fs <- GcsFileSystem$create()
+# Define an Apache Arrow Dataset over a prefix containing one or more parquet
+# files
+ds <- arrow::open_dataset(fs$path(sprintf("%s/cases", gcs_bucket)))
+# Create a Scanner using the Apache Arrow Dataset
+so <- Scanner$create(ds)
+# Convert Scanner object to an Apache Arrow Table
+at <- so$ToTable()
+# Convert Arrow Table to R data frame
+df <- as.data.frame(at)
+
+# Continue with downstream analysis
+```
