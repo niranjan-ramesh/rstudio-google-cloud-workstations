@@ -8,13 +8,13 @@ As per the comments in the `rocker/rstudio` [`init_userconf.sh`](https://github.
 | Variable | Value |
 | ---------------- | ----------------|
 | `RUNROOTLESS` | `true` |
-| `USER` | `root` |
-| `PASSWORD` | Whatever password you want to use to sign into the RStudio instance |
 | `USERID` | `0` |
 | `GROUPID` | `0` |
-| `EDITOR_FOCUS_DIR` | "/home" |
+| `DISABLE_AUTH` | `true` |
 
-Additionally, I set the **Run as user** field to `0` and **Working directory** to `/root`.
+These environment variables are set in the `Dockerfile` for this custom image.
+
+Additionally, I set the **Run as user** field to `0`.
 
 ## How to Connect to RStudio Cloud Workstation
 
@@ -25,7 +25,6 @@ Additionally, I set the **Run as user** field to `0` and **Working directory** t
 
 
 3. Once the remote port has been changed as per Step 2, select "**OPEN IN NEW WINDOW**".
-4. Enter the Username and Password provided to you via email.
 
 ## Reading Data from Google Cloud Storage
 
