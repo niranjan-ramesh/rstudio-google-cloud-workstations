@@ -5,18 +5,15 @@ steps:
     args:
       - '-c'
       - |
-        
-          echo "northamerica-northeast1-docker.pkg.dev/${PROJECT_ID}/tb-project/rstudio:$TAG_NAME" > /workspace/imagename
-          image=$(cat /workspace/imagename)
-          docker build -t $image .
-        
+        echo "northamerica-northeast1-docker.pkg.dev/${PROJECT_ID}/tb-project/rstudio:" > /workspace/imagename
+        image=$(cat /workspace/imagename)
+        docker build -t $image .
   - name: 'gcr.io/cloud-builders/docker'
     id: push-if-tag-created
     entrypoint: 'bash'
     args:
       - '-c'
       - |
-        
-          image=$(cat /workspace/imagename)
-          docker push $image
+        image=$(cat /workspace/imagename)
+        docker push $image
         
