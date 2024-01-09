@@ -5,7 +5,7 @@ steps:
     args:
       - '-c'
       - |
-        echo "northamerica-northeast1-docker.pkg.dev/${PROJECT_ID}/tb-project/rstudio:" > /workspace/imagename
+        echo "northamerica-northeast1-docker.pkg.dev/${PROJECT_ID}/tb-project/rstudio" > /workspace/imagename
         image=$(cat /workspace/imagename)
         docker build -t $image .
   - name: 'gcr.io/cloud-builders/docker'
